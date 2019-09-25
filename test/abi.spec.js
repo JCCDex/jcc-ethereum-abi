@@ -31,7 +31,6 @@ describe("test abi", function () {
       });
 
       it("test get abi item", function () {
-        // const data = inst.getAbiItem.apply(null, ["transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000"])
         const data =  inst.getAbiItem.call(null,"transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000");
         expect(data.stateMutability).to.equal("nonpayable");
       });
@@ -344,15 +343,9 @@ describe("test abi", function () {
   describe("test abi of erc721", function () {
 
     describe("test encode & decode", function () {
-
       const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-      // const myContract =new web3.eth.Contract(erc721ABI).at(["0x1b9bae18532eeb8cd4316a20678a0c43f28f0ae2");
-
       var MyContract = new web3.eth.Contract(erc721ABI, "0x1b9bae18532eeb8cd4316a20678a0c43f28f0ae2");
-
-
       const inst = new EtherABI(MyContract);
-
       before(function () {
         EtherABI.addABI(erc721ABI);
       });
