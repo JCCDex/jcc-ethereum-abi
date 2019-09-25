@@ -50,7 +50,7 @@ if (process.env.MODE !== "dev") {
         sequences: true,
         dead_code: true,
         drop_console: true,
-        drop_debugger: true,
+        drop_: true,
         unused: true
       }
     },

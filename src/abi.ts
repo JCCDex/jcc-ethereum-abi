@@ -35,15 +35,23 @@ export default class EtherABI {
    * @param {Contract} contract Ether contract instance
    * @memberof EtherABI
    */
+  // constructor(contract: Contract) {
+  //   if (contract instanceof Contract) {
+  //     this._contract = contract;
+  //     this._abi = contract._jsonInterface;
+  //   } else {
+  //     throw new Error("The input value isn't a contract instance");
+  //   }
+  // }
   constructor(contract: Contract) {
+    
     if (contract instanceof Contract) {
-      this._contract = contract;
-      this._abi = contract._jsonInterface;
+        this._contract = contract;
+        this._abi = contract._jsonInterface;
     } else {
-      throw new Error("The input value isn't a contract instance");
+        throw new Error("The input value isn't a contract instance");
     }
-  }
-
+}
   /**
    * get item of function meta data
    *
@@ -53,12 +61,14 @@ export default class EtherABI {
    * @memberof EtherABI
    */
   public getAbiItem = (name: string, ...args): IABIItem => {
-    const method = this._contract[name];
+    
+    const method = this._contract.methods[name];
     if (!isFunction(method)) {
       throw new Error(`The contract doesn't contain "${name}" function`);
     }
     const filterABIs: IABIItem[] = this._abi.filter(item => item.name === name);
     let abi: IABIItem;
+    debugger
     if (filterABIs.length === 1) {
       abi = filterABIs[0];
     } else {
@@ -80,27 +90,27 @@ export default class EtherABI {
    * @memberof EtherABI
    */
   public encode = (name: string, ...args): string => {
-    const method = this._contract[name];
+    const method = this._contract.methods[name];
     if (!isFunction(method)) {
       throw new Error(`The contract doesn't contain "${name}" function`);
     }
-    const filterABIs: IABIItem[] = this._abi.filter(item => item.name === name);
-    let encodedData: string;
-    if (filterABIs.length === 1) {
-      encodedData = method["getData"].apply(null, args);
-    } else {
-      const abi: IABIItem = filterABIs.find(
-        item => item.inputs.length === args.length
-      );
-      if (!abi) {
-        throw new Error("Invalid number of arguments to Solidity function");
-      }
-
-      // detail: https://github.com/EtherChain/chain3/blob/master/lib/chain3/function.js#L282
-      const typename = abi.inputs.map(input => input.type).join(",");
-      encodedData = method[typename].getData.apply(null, args);
-    }
-
+    // const filterABIs: IABIItem[] = this._abi.filter(item => item.name === name);
+    // let encodedData: string;
+    // if (filterABIs.length === 1) {
+      
+    //   encodedData = method.call(null,...args).encodeABI();
+    // } else {
+    //   const abi: IABIItem = filterABIs.find(
+    //     item => item.inputs.length === args.length
+    //   );
+    //   if (!abi) {
+    //     throw new Error("Invalid number of arguments to Solidity function");
+    //   }
+    //  debugger
+      // const typename = abi.inputs.map(input => input.type).join(",");
+    //   encodedData = method.call(null,...args).encodeABI();
+    // }
+    let encodedData = method.call(null,...args).encodeABI();
     if (encodedData.includes("NaN")) {
       throw new Error(
         'The encoded data contains "NaN", please check the input arguments'
@@ -118,6 +128,7 @@ export default class EtherABI {
    * @memberof EtherABI
    */
   public static decode(data: string): IDecoded[] {
+    
     const decodedData = abiDecoder.decodeMethod(data);
     return decodedData;
   }
