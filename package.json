@@ -1,10 +1,10 @@
 {
-  "name": "jcc-moac-abi",
+  "name": "jcc-ethereum-abi",
   "version": "0.1.7",
-  "description": "Decoder and encoder for the MOAC ABI and decode events from MOAC transactions",
+  "description": "Decoder and encoder for the ethereum ABI and decode events from ethereum transactions",
   "main": "lib/abi.js",
   "types": "./lib/abi.d.ts",
-  "unpkg": "dist/jcc-moac-abi.min.js",
+  "unpkg": "dist/jcc-ethereum-abi.min.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "deploy": "./publish.sh",
@@ -62,19 +62,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JCCDex/jcc-moac-abi.git"
+    "url": "git+https://github.com/JCCDex/jcc-ethereum-abi.git"
   },
   "keywords": [
-    "moac",
+    "ethereum",
     "abi",
     "decoder",
     "encoder",
     "transaction-event"
   ],
   "bugs": {
-    "url": "https://github.com/JCCDex/jcc-moac-abi/issues"
+    "url": "https://github.com/JCCDex/jcc-ethereum-abi/issues"
   },
-  "homepage": "https://github.com/JCCDex/jcc-moac-abi#readme",
+  "homepage": "https://github.com/JCCDex/jcc-ethereum-abi#readme",
   "nyc": {
     "check-coverage": true,
     "per-file": true,

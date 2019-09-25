@@ -6,9 +6,9 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const config = {
   entry: "./lib/abi",
   output: {
-    filename: "jcc-moac-abi.min.js",
+    filename: "jcc-ethereum-abi.min.js",
     path: path.resolve(__dirname, "./dist"),
-    library: "jcc_moac_abi",
+    library: "jcc_ethereum_abi",
     libraryTarget: "umd"
   },
   target: "web",
