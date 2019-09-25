@@ -35,16 +35,8 @@ export default class EtherABI {
    * @param {Contract} contract Ether contract instance
    * @memberof EtherABI
    */
-  // constructor(contract: Contract) {
-  //   if (contract instanceof Contract) {
-  //     this._contract = contract;
-  //     this._abi = contract._jsonInterface;
-  //   } else {
-  //     throw new Error("The input value isn't a contract instance");
-  //   }
-  // }
+
   constructor(contract: Contract) {
-    
     if (contract instanceof Contract) {
         this._contract = contract;
         this._abi = contract._jsonInterface;
@@ -61,7 +53,6 @@ export default class EtherABI {
    * @memberof EtherABI
    */
   public getAbiItem = (name: string, ...args): IABIItem => {
-    
     const method = this._contract.methods[name];
     if (!isFunction(method)) {
       throw new Error(`The contract doesn't contain "${name}" function`);
@@ -77,7 +68,6 @@ export default class EtherABI {
         throw new Error("Invalid number of arguments to Solidity function");
       }
     }
-
     return abi;
   };
 
@@ -94,22 +84,6 @@ export default class EtherABI {
     if (!isFunction(method)) {
       throw new Error(`The contract doesn't contain "${name}" function`);
     }
-    // const filterABIs: IABIItem[] = this._abi.filter(item => item.name === name);
-    // let encodedData: string;
-    // if (filterABIs.length === 1) {
-      
-    //   encodedData = method.call(null,...args).encodeABI();
-    // } else {
-    //   const abi: IABIItem = filterABIs.find(
-    //     item => item.inputs.length === args.length
-    //   );
-    //   if (!abi) {
-    //     throw new Error("Invalid number of arguments to Solidity function");
-    //   }
-    //  debugger
-      // const typename = abi.inputs.map(input => input.type).join(",");
-    //   encodedData = method.call(null,...args).encodeABI();
-    // }
     let encodedData = method.call(null,...args).encodeABI();
     if (encodedData.includes("NaN")) {
       throw new Error(
