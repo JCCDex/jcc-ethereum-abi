@@ -1,13 +1,9 @@
 export interface ILog {
-    TxData: string,
+    data: string,
     address: string,
-    blockHash: string,
-    blockNumber: number,
-    logIndex: number,
-    removed: number,
-    topics: string[],
-    transactionHash: string,
-    transactionIndex: number
+    event_name:string,
+    log_index: number,
+    topics: string[]
 }
 
 interface IEvent {

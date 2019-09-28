@@ -38,12 +38,12 @@ export default class EtherABI {
 
   constructor(contract: Contract) {
     if (contract instanceof Contract) {
-        this._contract = contract;
-        this._abi = contract._jsonInterface;
+      this._contract = contract;
+      this._abi = contract._jsonInterface;
     } else {
-        throw new Error("The input value isn't a contract instance");
+      throw new Error("The input value isn't a contract instance");
     }
-}
+  }
   /**
    * get item of function meta data
    *
@@ -59,7 +59,6 @@ export default class EtherABI {
     }
     const filterABIs: IABIItem[] = this._abi.filter(item => item.name === name);
     let abi: IABIItem;
-    debugger
     if (filterABIs.length === 1) {
       abi = filterABIs[0];
     } else {
@@ -84,12 +83,22 @@ export default class EtherABI {
     if (!isFunction(method)) {
       throw new Error(`The contract doesn't contain "${name}" function`);
     }
-    let encodedData = method.call(null,...args).encodeABI();
+    var filterABIs = this._abi.filter(function(item) {
+      return item.name === name;
+    });
+    var abi = filterABIs.find(function(item) {
+      return item.inputs.length === args.length;
+    });
+    if (!abi) {
+      throw new Error("Invalid number of arguments to Solidity function");
+    }
+    let encodedData = method.call(null, ...args).encodeABI();
     if (encodedData.includes("NaN")) {
       throw new Error(
         'The encoded data contains "NaN", please check the input arguments'
       );
     }
+
     return encodedData;
   };
 
@@ -102,7 +111,6 @@ export default class EtherABI {
    * @memberof EtherABI
    */
   public static decode(data: string): IDecoded[] {
-    
     const decodedData = abiDecoder.decodeMethod(data);
     return decodedData;
   }
@@ -125,8 +133,8 @@ export default class EtherABI {
         const methodID = logItem.topics[0].slice(2);
         const method = abiDecoder.getMethodIDs()[methodID];
         if (method) {
-          const logData = logItem.TxData;
-          const decodedParams = [];
+          const logData = logItem.data;
+          let decodedParams = [];
           let dataIndex = 0;
           let topicsIndex = 1;
 
@@ -143,7 +151,7 @@ export default class EtherABI {
           );
           // Loop topic and data to get the params
           method.inputs.map(param => {
-            const decodedP: any = {
+            let decodedP: any = {
               name: param.name,
               type: param.type
             };
@@ -160,20 +168,15 @@ export default class EtherABI {
               decodedP.value = decodedP.value.toLowerCase();
               // 42 because len(0x) + 40
               if (decodedP.value.length > 42) {
-                const toRemove = decodedP.value.length - 42;
-                const temp = decodedP.value.split("");
+                let toRemove = decodedP.value.length - 42;
+                let temp = decodedP.value.split("");
                 temp.splice(2, toRemove);
                 decodedP.value = temp.join("");
               }
             }
-
-            if (
-              param.type === "uint256" ||
-              param.type === "uint8" ||
-              param.type === "int"
-            ) {
+            if (param.type === "uint256" || param.type === "uint8" || param.type === "int") {
               decodedP.value = new BN(decodedP.value).toString(10);
-            }
+          }
 
             decodedParams.push(decodedP);
           });
