@@ -1,9 +1,13 @@
 export interface ILog {
     data: string,
     address: string,
-    event_name:string,
-    log_index: number,
-    topics: string[]
+    blockHash: string,
+    blockNumber: number,
+    logIndex: number,
+    removed: number,
+    topics: string[],
+    transactionHash: string,
+    transactionIndex: number
 }
 
 interface IEvent {

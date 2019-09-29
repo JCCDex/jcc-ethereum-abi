@@ -22,7 +22,10 @@
     "@types/lodash": "^4.14.137",
     "@types/node": "^12.7.2",
     "abi-decoder": "^2.2.0",
+    "bignumber.js": "^9.0.0",
     "lodash": "^4.17.15",
+    "ethereumjs-tx": "^2.0.0",
+    "jcc_wallet": "^0.4.1",
     "web3": "1.0.0-beta.34"
   },
   "devDependencies": {
