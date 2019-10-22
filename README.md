@@ -25,7 +25,7 @@ See [abi.spec.js](https://github.com/JCCDex/jcc-ethereum-abi/blob/master/test/ab
 
 参见[abi.spec.js](https://github.com/JCCDex/jcc-ethereum-abi/blob/master/test/abi.spec.js)获得更多细节信息
 
-jcc-moac-abi的作用是将合约调用演化为对函数名，参数的字符串拼接，类似call by name的方式对合约进行调用。这种方式极大的简化了对合约调用的封装工作。
+jcc-ethereum-abi的作用是将合约调用演化为对函数名，参数的字符串拼接，类似call by name的方式对合约进行调用。这种方式极大的简化了对合约调用的封装工作。
 
 ```javascript
 const Web3 = require("web3");
