@@ -37,6 +37,7 @@
       "named": "never",
       "asyncArrow": "always",
       "constructor": "never"
-    }]
+    }],
+    "ordered-imports": false
   }
 }
