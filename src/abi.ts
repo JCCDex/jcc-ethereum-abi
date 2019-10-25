@@ -61,8 +61,8 @@ export default class EtherABI {
     let abi: IABIItem;
     if (filterABIs.length === 1) {
       abi = filterABIs[0];
-    } 
-    
+    }
+
     return abi;
   };
 
@@ -121,8 +121,8 @@ export default class EtherABI {
         if (method) {
           const logData = logItem.data;
           const decodedParams = [];
-          var dataIndex = 0;
-          var topicsIndex = 1;
+          let dataIndex = 0;
+          let topicsIndex = 1;
 
           const dataTypes = [];
           method.inputs.map((input) => {

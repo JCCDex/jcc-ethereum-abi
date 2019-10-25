@@ -246,7 +246,7 @@ describe("test abi", function () {
       })
 
       it("throw error if number of arguments is invalid", function () {
-        expect(() => inst.encode("transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000","30000000000000000")).throw('Invalid number of arguments to Solidity function');
+        expect(() => inst.encode("transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000", "30000000000000000")).throw('Invalid number of arguments to Solidity function');
       })
     })
   })
@@ -312,8 +312,8 @@ describe("test abi", function () {
         })
       })
       it("test withdraw", function () {
-        const data = inst.encode("withdraw", "0x82F555687D78DCD12FDDF83A58350278CAA5A32004F83E57A65512D88EE04147","0x5b4e516dF9c2f148Fe0dEDb78Df8D926AEf78Da1",1);
-        expect(data).to.equal("0xa6fb97d182F555687D78DCD12FDDF83A58350278CAA5A32004F83E57A65512D88EE041470000000000000000000000005b4e516df9c2f148fe0dedb78df8d926aef78da10000000000000000000000000000000000000000000000000000000000000001")
+        const data = inst.encode("withdraw", "0x82f555687d78dcd12fddf83a58350278caa5a32004f83e57a65512d88ee04147", "0x5b4e516df9c2f148fe0dedb78df8d926aef78da1", 1);
+        expect(data).to.equal("0xa6fb97d182f555687d78dcd12fddf83a58350278caa5a32004f83e57a65512d88ee041470000000000000000000000005b4e516df9c2f148fe0dedb78df8d926aef78da10000000000000000000000000000000000000000000000000000000000000001")
         const decoded = EtherABI.decode(data);
         expect(decoded).to.deep.equal({
           name: 'withdraw',
@@ -326,7 +326,7 @@ describe("test abi", function () {
             name: '_dest',
             value: '0x5b4e516df9c2f148fe0dedb78df8d926aef78da1',
             type: 'address'
-          },{
+          }, {
             name: '_amount',
             value: '1',
             type: 'uint256'
