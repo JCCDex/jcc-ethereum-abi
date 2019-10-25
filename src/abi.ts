@@ -52,7 +52,7 @@ export default class EtherABI {
    * @returns {IABIItem}
    * @memberof EtherABI
    */
-  public getAbiItem = (name: string): IABIItem => {
+  public getAbiItem = (name: string, ...args): IABIItem => {
     const method = this._contract.methods[name];
     if (!isFunction(method)) {
       throw new Error(`The contract doesn't contain "${name}" function`);
@@ -61,6 +61,11 @@ export default class EtherABI {
     let abi: IABIItem;
     if (filterABIs.length === 1) {
       abi = filterABIs[0];
+    } else {
+      abi = filterABIs.find((item) => item.inputs.length === args.length);
+      if (!abi) {
+        throw new Error("Invalid number of arguments to Solidity function");
+      }
     }
 
     return abi;
@@ -79,11 +84,7 @@ export default class EtherABI {
     if (!isFunction(method)) {
       throw new Error(`The contract doesn't contain "${name}" function`);
     }
-    const filterABIs = this._abi.filter((item) => item.name === name);
-    const abi = filterABIs.find((item) => item.inputs.length === args.length);
-    if (!abi) {
-      throw new Error("Invalid number of arguments to Solidity function");
-    }
+
     const encodedData = method.call(null, ...args).encodeABI();
     return encodedData;
   };
