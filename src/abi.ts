@@ -159,6 +159,8 @@ export default class EtherABI {
                 const temp = decodedP.value.split("");
                 temp.splice(2, toRemove);
                 decodedP.value = temp.join("");
+              } else {
+                throw new Error(`topic address length less than 42`);
               }
             }
             if (

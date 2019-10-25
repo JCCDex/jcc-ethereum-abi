@@ -240,7 +240,142 @@ describe("test abi", function () {
           data: "0xe2f6386e735005c9bc100cea6857e053e84f083ecb8158c31a237e686732ae780000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003600000000000000000000000000000000000000000000000000f8b0a10e47000000000000000000000000000000000000000000000000000001cc89761a7084bc00000000000000000000000000000000000000000000000000d3d8d50c2984bdfffffffffffffffffffffffffffffffffffffffffffffffffe337689e58f7b44"
         }]);
       })
+      it("test Tansfer event", function () {
+        const logs = [{
+          event_name: "",
+          data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
+          address: "0x3b0b89bc54ecfc0c96ae8a99dc3ac54321b7162c",
+          log_index: 25,
+          topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0000000000000000000000000f4e07ce7a30d623c8d8bcd947be9fe85db53b56", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"]
+        }];
 
+        const decodedLogs = EtherABI.decodeLogs(logs);
+        expect(decodedLogs).to.deep.equal([{
+          event_name: "",
+          data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
+          address: "0x3b0b89bc54ecfc0c96ae8a99dc3ac54321b7162c",
+          log_index: 25,
+          topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0000000000000000000000000f4e07ce7a30d623c8d8bcd947be9fe85db53b56", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"],
+          events: [{ "name": "_from", "type": "address", "value": "0x0f4e07ce7a30d623c8d8bcd947be9fe85db53b56" },
+          { "name": "_to", "type": "address", "value": "0xb74768b8b190b0728c7943b1d5f935ffe3f471b1" },
+          { "name": "_value", "type": "uint256", "value": "6990000000000000000000" }],
+          "name": "Transfer"
+        }]);
+
+
+        let decoded = EtherABI.decodeLogs([{
+          address: "0x55f287e77274deb12c798c039da92dd653b025ab",
+          topics: ["0x61ae36884f77dd2a5df3261882e2f207a9c5b7a3ff4754f766f3151c247c2ba0", "0x0000000000000000000000004290e523da8c47ead9c7b60f3231cae7bf6af18b", "0x00000000000000000000000062c456b0e3c836e52844823c9e956c2360efe2e8"],
+          event_name: "",
+          log_index: 78,
+          data: "0x0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          address: "0x55f287e77274deb12c798c039da92dd653b025ab",
+          topics: ["0x88ad9237c84c60e60a52303b08fbc1f0dddaf442c6425eca4f5e2b0a40f0303f", "0x00000000000000000000000062c456b0e3c836e52844823c9e956c2360efe2e8", "0x0000000000000000000000004290e523da8c47ead9c7b60f3231cae7bf6af18b"],
+          event_name: "",
+          log_index: 79,
+          data: "0x"
+        }]
+        )
+
+        expect(decoded).to.deep.equal([{
+          address: "0x55f287e77274deb12c798c039da92dd653b025ab",
+          topics: ["0x61ae36884f77dd2a5df3261882e2f207a9c5b7a3ff4754f766f3151c247c2ba0", "0x0000000000000000000000004290e523da8c47ead9c7b60f3231cae7bf6af18b", "0x00000000000000000000000062c456b0e3c836e52844823c9e956c2360efe2e8"],
+          event_name: "",
+          log_index: 78,
+          data: "0x0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          address: "0x55f287e77274deb12c798c039da92dd653b025ab",
+          topics: ["0x88ad9237c84c60e60a52303b08fbc1f0dddaf442c6425eca4f5e2b0a40f0303f", "0x00000000000000000000000062c456b0e3c836e52844823c9e956c2360efe2e8", "0x0000000000000000000000004290e523da8c47ead9c7b60f3231cae7bf6af18b"],
+          event_name: "",
+          log_index: 79,
+          data: "0x"
+        }]);
+
+        EtherABI.addABI([{
+          anonymous: false,
+          inputs: [{
+            indexed: true,
+            name: "_token",
+            type: "address"
+          },
+          {
+            indexed: true,
+            name: "_user",
+            type: "address"
+          },
+          {
+            indexed: false,
+            name: "_jthash",
+            type: "bytes32"
+          },
+          {
+            indexed: false,
+            name: "_amount",
+            type: "uint256"
+          },
+          {
+            indexed: false,
+            name: "_balance",
+            type: "uint256"
+          }
+          ],
+          name: "Withdraw",
+          type: "event"
+        }])
+
+        decoded = EtherABI.decodeLogs([{
+          address: "0x37304b0ab297f13f5520c523102797121182fb5b",
+          topics: ["0xd0a6f018d0e9629a13bfeb9c60fd1bd8422531c157615dd2b75f0416f9255d98", "0x000000000000000000000000f51920ab64b5e5cf1bd06ed53899ad85eadc8c2a"],
+          event_name: "LogBalanceChange",
+          log_index: 141,
+          data: "0x00000000000000000000000000000000000000000000000001f9fdf31d7f7ab000000000000000000000000000000000000000000000000001014d520f387ab1"
+        },
+        {
+          address: "0x37304b0ab297f13f5520c523102797121182fb5b",
+          topics: ["0xd0a6f018d0e9629a13bfeb9c60fd1bd8422531c157615dd2b75f0416f9255d98",
+            "0x000000000000000000000000352e48eac00d833b09953397788f4030b6d12b06"],
+          event_name: "LogBalanceChange",
+          log_index: 142,
+          data: "0x00000000000000000000000000000000000000000000000041e0416bae3ef385000000000000000000000000000000000000000000000000410c6896a2156ec8"
+        },
+        {
+          address: "0x37304b0ab297f13f5520c523102797121182fb5b",
+          topics: ["0xd5db3fe23370479a78dc47612ce8be2c8c0ae30d3f255129af35fe3f852b9656", "0x000000000000000000000000f51920ab64b5e5cf1bd06ed53899ad85eadc8c2a",
+            "0x000000000000000000000000352e48eac00d833b09953397788f4030b6d12b06",
+            "0x168f423f0d2ab06628261b7c4c6c260b1a7cbd585791f93b8e5e3649ff29320c"],
+          event_name: "LogTrade",
+          log_index: 143,
+          data: "0xe2f6386e735005c9bc100cea6857e053e84f083ecb8158c31a237e686732ae780000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003600000000000000000000000000000000000000000000000000f8b0a10e47000000000000000000000000000000000000000000000000000001cc89761a7084bc00000000000000000000000000000000000000000000000000d3d8d50c2984bdfffffffffffffffffffffffffffffffffffffffffffffffffe337689e58f7b44"
+        }])
+
+        expect(decoded).to.deep.equal([{
+          address: "0x37304b0ab297f13f5520c523102797121182fb5b",
+          topics: ["0xd0a6f018d0e9629a13bfeb9c60fd1bd8422531c157615dd2b75f0416f9255d98", "0x000000000000000000000000f51920ab64b5e5cf1bd06ed53899ad85eadc8c2a"],
+          event_name: "LogBalanceChange",
+          log_index: 141,
+          data: "0x00000000000000000000000000000000000000000000000001f9fdf31d7f7ab000000000000000000000000000000000000000000000000001014d520f387ab1"
+        },
+        {
+          address: "0x37304b0ab297f13f5520c523102797121182fb5b",
+          topics: ["0xd0a6f018d0e9629a13bfeb9c60fd1bd8422531c157615dd2b75f0416f9255d98",
+            "0x000000000000000000000000352e48eac00d833b09953397788f4030b6d12b06"],
+          event_name: "LogBalanceChange",
+          log_index: 142,
+          data: "0x00000000000000000000000000000000000000000000000041e0416bae3ef385000000000000000000000000000000000000000000000000410c6896a2156ec8"
+        },
+        {
+          address: "0x37304b0ab297f13f5520c523102797121182fb5b",
+          topics: ["0xd5db3fe23370479a78dc47612ce8be2c8c0ae30d3f255129af35fe3f852b9656", "0x000000000000000000000000f51920ab64b5e5cf1bd06ed53899ad85eadc8c2a",
+            "0x000000000000000000000000352e48eac00d833b09953397788f4030b6d12b06",
+            "0x168f423f0d2ab06628261b7c4c6c260b1a7cbd585791f93b8e5e3649ff29320c"],
+          event_name: "LogTrade",
+          log_index: 143,
+          data: "0xe2f6386e735005c9bc100cea6857e053e84f083ecb8158c31a237e686732ae780000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003600000000000000000000000000000000000000000000000000f8b0a10e47000000000000000000000000000000000000000000000000000001cc89761a7084bc00000000000000000000000000000000000000000000000000d3d8d50c2984bdfffffffffffffffffffffffffffffffffffffffffffffffffe337689e58f7b44"
+        }]);
+      })
       it("throw error if doesn't contain function", function () {
         expect(() => inst.encode("test")).throw('The contract doesn\'t contain "test" function');
       })
@@ -256,6 +391,17 @@ describe("test abi", function () {
       it("test transfer with data for getAbiItem", function () {
         const data = inst.getAbiItem("transfer", "0xae832592b6d697cd6b3d053866bfe5f334e7c667", "0x533243557dfdc87ae5bda885e22db00f87499971", 1, "0xaa");
         expect(data.name).to.equal("transfer")
+      })
+      it("test transfer event address length", function () {
+        const logs = [{
+          event_name: "",
+          data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
+          address: "0x3b0b89bc54ecfc0c96ae8a99dc3ac54321b7162c",
+          log_index: 25,
+          topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0000000000000000000000000f4e07ce7a30d", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"]
+        }];
+
+        expect(() => EtherABI.decodeLogs(logs)).throw("topic address length less than 42");
       })
     })
   })
