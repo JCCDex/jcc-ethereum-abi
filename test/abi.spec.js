@@ -245,12 +245,17 @@ describe("test abi", function () {
         expect(() => inst.encode("test")).throw('The contract doesn\'t contain "test" function');
       })
 
-      // it("throw error if number of arguments is invalid", function () {
-      //   expect(() => inst.encode("transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000", "30000000000000000")).throw('Invalid number of arguments to Solidity function');
-      // })
+      it("test the only function ", function () {
+        const data = inst.getAbiItem("allowance", "0x533243557dfdc87ae5bda885e22db00f87499971", "0xae832592b6d697cd6b3d053866bfe5f334e7c667");
+        expect(data.name).to.equal("allowance")
+      })
 
       it("throw error if number of arguments is invalid", function () {
         expect(() => inst.getAbiItem("transfer", "0x533243557dfdc87ae5bda885e22db00f87499971")).throw('Invalid number of arguments to Solidity function');
+      })
+      it("test transfer with data for getAbiItem", function () {
+        const data = inst.getAbiItem("transfer", "0xae832592b6d697cd6b3d053866bfe5f334e7c667", "0x533243557dfdc87ae5bda885e22db00f87499971", 1, "0xaa");
+        expect(data.name).to.equal("transfer")
       })
     })
   })
