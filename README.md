@@ -1,6 +1,6 @@
-# jcc-eth-abi
+# jcc-ethereum-abi
 
-Decoder and encoder for the ETHEREUM ABI and decode events from ETHEREUM transactions.
+Decoder and encoder for the Ethereum ABI and decode events from Ethereum transactions.
 
 ![npm](https://img.shields.io/npm/v/jcc-ethereum-abi.svg)
 [![Build Status](https://travis-ci.com/JCCDex/jcc-ethereum-abi.svg?branch=master)](https://travis-ci.com/JCCDex/jcc-ethereum-abi)
