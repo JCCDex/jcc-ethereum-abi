@@ -398,10 +398,20 @@ describe("test abi", function () {
           data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
           address: "0x3b0b89bc54ecfc0c96ae8a99dc3ac54321b7162c",
           log_index: 25,
-          topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0000000000000000000000000f4e07ce7a30d", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"]
+          topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0f4e07ce7a30d623c8d8bcd947be9fe85db53b56", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"]
         }];
-
-        expect(() => EtherABI.decodeLogs(logs)).throw("topic address length less than 42");
+        const decodedLogs = EtherABI.decodeLogs(logs)
+        expect(decodedLogs).to.deep.equal([{
+          event_name: "",
+          data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
+          address: "0x3b0b89bc54ecfc0c96ae8a99dc3ac54321b7162c",
+          log_index: 25,
+          topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0f4e07ce7a30d623c8d8bcd947be9fe85db53b56", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"],
+          events: [{ "name": "_from", "type": "address", "value": "0x0f4e07ce7a30d623c8d8bcd947be9fe85db53b56" },
+          { "name": "_to", "type": "address", "value": "0xb74768b8b190b0728c7943b1d5f935ffe3f471b1" },
+          { "name": "_value", "type": "uint256", "value": "6990000000000000000000" }],
+          "name": "Transfer"
+        }]);
       })
     })
   })
