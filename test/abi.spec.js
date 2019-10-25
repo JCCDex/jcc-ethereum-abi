@@ -1,5 +1,5 @@
 const Web3 = require("web3");
-const EtherABI = require("../lib/abi").EtherABI;
+const EthereumABI = require("../lib/abi").EthereumABI;
 const erc20ABI = require("./abi/erc20ABI");
 const fingateABI = require('./abi/fingateABI');
 const expect = require("chai").expect;
@@ -9,7 +9,7 @@ describe("test abi", function () {
 
   describe("test constructor", function () {
     it("throw error if input value is invalid", function () {
-      expect(() => new EtherABI()).throw("The input value isn't a contract instance");
+      expect(() => new EthereumABI()).throw("The input value isn't a contract instance");
     })
   })
 
@@ -21,13 +21,13 @@ describe("test abi", function () {
         from: '0x1234567890123456789012345678901234567891', // default from address
         gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
       });
-      const inst = new EtherABI(myContract);
+      const inst = new EthereumABI(myContract);
       before(function () {
-        EtherABI.addABI(erc20ABI);
+        EthereumABI.addABI(erc20ABI);
       });
 
       after(function () {
-        EtherABI.removeABI(erc20ABI);
+        EthereumABI.removeABI(erc20ABI);
       });
 
       it("test get abi item", function () {
@@ -43,7 +43,7 @@ describe("test abi", function () {
 
         const data = inst.encode("transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000")
         expect(data).to.equal("0xa9059cbb000000000000000000000000533243557dfdc87ae5bda885e22db00f87499971000000000000000000000000000000000000000000000000006a94d74f430000")
-        const decoded = EtherABI.decode(data);
+        const decoded = EthereumABI.decode(data);
         expect(decoded).to.deep.equal({
           name: 'transfer',
           params: [{
@@ -63,7 +63,7 @@ describe("test abi", function () {
       it("test approve", function () {
         const data = inst.encode("approve", "0x09344477fdc71748216a7b8bbe7f2013b893def8", "30000000000000000");
         expect(data).to.equal("0x095ea7b300000000000000000000000009344477fdc71748216a7b8bbe7f2013b893def8000000000000000000000000000000000000000000000000006a94d74f430000")
-        const decoded = EtherABI.decode(data);
+        const decoded = EthereumABI.decode(data);
         expect(decoded).to.deep.equal({
           name: 'approve',
           params: [{
@@ -83,7 +83,7 @@ describe("test abi", function () {
       it("test transferFrom", function () {
         const data = inst.encode("transferFrom", "0x09344477fdc71748216a7b8bbe7f2013b893def8", "0xae832592b6d697cd6b3d053866bfe5f334e7c667", "30000000000000000");
         expect(data).to.equal("0x23b872dd00000000000000000000000009344477fdc71748216a7b8bbe7f2013b893def8000000000000000000000000ae832592b6d697cd6b3d053866bfe5f334e7c667000000000000000000000000000000000000000000000000006a94d74f430000")
-        const decoded = EtherABI.decode(data);
+        const decoded = EthereumABI.decode(data);
         expect(decoded).to.deep.equal({
           name: 'transferFrom',
           params: [{
@@ -114,7 +114,7 @@ describe("test abi", function () {
           topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0000000000000000000000000f4e07ce7a30d623c8d8bcd947be9fe85db53b56", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"]
         }];
 
-        const decodedLogs = EtherABI.decodeLogs(logs);
+        const decodedLogs = EthereumABI.decodeLogs(logs);
         expect(decodedLogs).to.deep.equal([{
           event_name: "",
           data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
@@ -127,7 +127,7 @@ describe("test abi", function () {
           "name": "Transfer"
         }]);
 
-        let decoded = EtherABI.decodeLogs([{
+        let decoded = EthereumABI.decodeLogs([{
           address: "0x55f287e77274deb12c798c039da92dd653b025ab",
           topics: ["0x61ae36884f77dd2a5df3261882e2f207a9c5b7a3ff4754f766f3151c247c2ba0", "0x0000000000000000000000004290e523da8c47ead9c7b60f3231cae7bf6af18b", "0x00000000000000000000000062c456b0e3c836e52844823c9e956c2360efe2e8"],
           event_name: "",
@@ -158,7 +158,7 @@ describe("test abi", function () {
           data: "0x"
         }]);
 
-        EtherABI.addABI([{
+        EthereumABI.addABI([{
           anonymous: false,
           inputs: [{
             indexed: true,
@@ -190,7 +190,7 @@ describe("test abi", function () {
           type: "event"
         }])
 
-        decoded = EtherABI.decodeLogs([{
+        decoded = EthereumABI.decodeLogs([{
           address: "0x37304b0ab297f13f5520c523102797121182fb5b",
           topics: ["0xd0a6f018d0e9629a13bfeb9c60fd1bd8422531c157615dd2b75f0416f9255d98", "0x000000000000000000000000f51920ab64b5e5cf1bd06ed53899ad85eadc8c2a"],
           event_name: "LogBalanceChange",
@@ -249,7 +249,7 @@ describe("test abi", function () {
           topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0000000000000000000000000f4e07ce7a30d623c8d8bcd947be9fe85db53b56", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"]
         }];
 
-        const decodedLogs = EtherABI.decodeLogs(logs);
+        const decodedLogs = EthereumABI.decodeLogs(logs);
         expect(decodedLogs).to.deep.equal([{
           event_name: "",
           data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
@@ -263,7 +263,7 @@ describe("test abi", function () {
         }]);
 
 
-        let decoded = EtherABI.decodeLogs([{
+        let decoded = EthereumABI.decodeLogs([{
           address: "0x55f287e77274deb12c798c039da92dd653b025ab",
           topics: ["0x61ae36884f77dd2a5df3261882e2f207a9c5b7a3ff4754f766f3151c247c2ba0", "0x0000000000000000000000004290e523da8c47ead9c7b60f3231cae7bf6af18b", "0x00000000000000000000000062c456b0e3c836e52844823c9e956c2360efe2e8"],
           event_name: "",
@@ -294,7 +294,7 @@ describe("test abi", function () {
           data: "0x"
         }]);
 
-        EtherABI.addABI([{
+        EthereumABI.addABI([{
           anonymous: false,
           inputs: [{
             indexed: true,
@@ -326,7 +326,7 @@ describe("test abi", function () {
           type: "event"
         }])
 
-        decoded = EtherABI.decodeLogs([{
+        decoded = EthereumABI.decodeLogs([{
           address: "0x37304b0ab297f13f5520c523102797121182fb5b",
           topics: ["0xd0a6f018d0e9629a13bfeb9c60fd1bd8422531c157615dd2b75f0416f9255d98", "0x000000000000000000000000f51920ab64b5e5cf1bd06ed53899ad85eadc8c2a"],
           event_name: "LogBalanceChange",
@@ -400,7 +400,7 @@ describe("test abi", function () {
           log_index: 25,
           topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", "0x0f4e07ce7a30d623c8d8bcd947be9fe85db53b56", "0x000000000000000000000000b74768b8b190b0728c7943b1d5f935ffe3f471b1"]
         }];
-        const decodedLogs = EtherABI.decodeLogs(logs)
+        const decodedLogs = EthereumABI.decodeLogs(logs)
         expect(decodedLogs).to.deep.equal([{
           event_name: "",
           data: "0x00000000000000000000000000000000000000000000017aedbc9d648c780000",
@@ -421,18 +421,18 @@ describe("test abi", function () {
     describe("test encode & decode", function () {
       const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
       var MyContract = new web3.eth.Contract(fingateABI, "0x1b9bae18532eeb8cd4316a20678a0c43f28f0ae2");
-      const inst = new EtherABI(MyContract);
+      const inst = new EthereumABI(MyContract);
       before(function () {
-        EtherABI.addABI(fingateABI);
+        EthereumABI.addABI(fingateABI);
       });
       after(function () {
-        EtherABI.removeABI(fingateABI);
+        EthereumABI.removeABI(fingateABI);
       });
 
       it("test tokens", function () {
         const data = inst.encode("tokens", "0xae832592b6d697cd6b3d053866bfe5f334e7c667", "0x533243557dfdc87ae5bda885e22db00f87499971", 1);
         expect(data).to.equal("0xf56e81fa000000000000000000000000ae832592b6d697cd6b3d053866bfe5f334e7c667000000000000000000000000533243557dfdc87ae5bda885e22db00f874999710000000000000000000000000000000000000000000000000000000000000001")
-        expect(EtherABI.decode(data)).to.deep.equal({
+        expect(EthereumABI.decode(data)).to.deep.equal({
           name: 'tokens',
           params: [{
             name: '',
@@ -456,7 +456,7 @@ describe("test abi", function () {
       it("test admin encode&&decode", function () {
         const data = inst.encode("admin");
         expect(data).to.equal("0xf851a440")
-        expect(EtherABI.decode(data)).to.deep.equal({
+        expect(EthereumABI.decode(data)).to.deep.equal({
           name: 'admin',
           params: []
         })
@@ -465,7 +465,7 @@ describe("test abi", function () {
       it("test deposit", function () {
         const data = inst.encode("deposit", "jm4tVC5t7eUg46jxqpxh3dPoPqTnUVCKT");
         expect(data).to.equal("0xa26e1186000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000216a6d3474564335743765556734366a78717078683364506f5071546e5556434b5400000000000000000000000000000000000000000000000000000000000000")
-        const decoded = EtherABI.decode(data);
+        const decoded = EthereumABI.decode(data);
         expect(decoded).to.deep.equal({
           name: 'deposit',
           params: [{
@@ -479,7 +479,7 @@ describe("test abi", function () {
       it("test withdraw", function () {
         const data = inst.encode("withdraw", "0x82f555687d78dcd12fddf83a58350278caa5a32004f83e57a65512d88ee04147", "0x5b4e516df9c2f148fe0dedb78df8d926aef78da1", 1);
         expect(data).to.equal("0xa6fb97d182f555687d78dcd12fddf83a58350278caa5a32004f83e57a65512d88ee041470000000000000000000000005b4e516df9c2f148fe0dedb78df8d926aef78da10000000000000000000000000000000000000000000000000000000000000001")
-        const decoded = EtherABI.decode(data);
+        const decoded = EthereumABI.decode(data);
         expect(decoded).to.deep.equal({
           name: 'withdraw',
           params: [{

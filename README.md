@@ -29,7 +29,7 @@ jcc-ethereum-abi的作用是将合约调用演化为对函数名，参数的字�
 
 ```javascript
 const Web3 = require("web3");
-const EtherABI = require("jcc-ethereum-abi").EtherABI;
+const EthereumABI = require("jcc-ethereum-abi").EthereumABI;
 const erc20ABI = require("./test/abi/erc20ABI");
 
 
@@ -42,18 +42,18 @@ var myContract = new web3.eth.Contract(erc20ABI, '0xde0B295669a9FD93d5F28D9Ec85E
     gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
 });
 
-const inst = new EtherABI(myContract);
+const inst = new EthereumABI(myContract);
 // encode
-const data = etherABI.encode("transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000")
+const data = EthereumABI.encode("transfer", "0x533243557dfdc87ae5bda885e22db00f87499971", "30000000000000000")
 
 
 // for decoding data and transaction logs
 
 // add abi to abiDecoder firstly
-EtherABI.addABI(erc20ABI);
+EthereumABI.addABI(erc20ABI);
 
 // decode
-const decode = EtherABI.decode(data);
+const decode = EthereumABI.decode(data);
 
 // decode transaction logs
 const logs = [{
@@ -67,10 +67,10 @@ const logs = [{
     transactionHash: "0x9a7da10a30ad4c8e1bb4461107497130a19f53a844069dd3e019557ee1a423b8",
     transactionIndex: 1
 }];
-const decodeLogs = EtherABI.decodeLogs(logs);
+const decodeLogs = EthereumABI.decodeLogs(logs);
 
 
 // remove ABIs and methodIDs from abiDecoder
-EtherABI.removeABI(erc20ABI);
+EthereumABI.removeABI(erc20ABI);
 
 ```

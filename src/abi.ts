@@ -9,15 +9,15 @@ import { IABIItem, IDecoded, IDecodedLog, ILog } from "./model";
  * decoder and encoder for Ether
  *
  * @export
- * @class EtherABI
+ * @class EthereumABI
  */
-export default class EtherABI {
+export default class EthereumABI {
   /**
    * Ether contract instance
    *
    * @private
    * @type {Contract}
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   private _contract: Contract;
 
@@ -26,14 +26,14 @@ export default class EtherABI {
    *
    * @private
    * @type {IABIItem[]}
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   private _abi: IABIItem[];
 
   /**
-   * Creates an instance of EtherABI.
+   * Creates an instance of EthereumABI.
    * @param {Contract} contract Ether contract instance
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
 
   constructor(contract: Contract) {
@@ -50,7 +50,7 @@ export default class EtherABI {
    * @param {string} name defined function name in the abi
    * @param {*} args parameters according to the defined inputs
    * @returns {IABIItem}
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   public getAbiItem = (name: string, ...args): IABIItem => {
     const method = this._contract.methods[name];
@@ -77,7 +77,7 @@ export default class EtherABI {
    * @param {string} name defined function name in the abi
    * @param {*} args parameters according to the defined inputs
    * @returns {string}
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   public encode = (name: string, ...args): string => {
     const method = this._contract.methods[name];
@@ -95,7 +95,7 @@ export default class EtherABI {
    * @static
    * @param {string} data
    * @returns {IDecoded[]}
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   public static decode(data: string): IDecoded[] {
     const decodedData = abiDecoder.decodeMethod(data);
@@ -111,7 +111,7 @@ export default class EtherABI {
    * @param {ILog[]} logs
    * @returns {IDecodedLog[]} if event is defined and decode succeed, return log that contains
    * events as input arguments and name as event's name, otherwise return itself.
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   public static decodeLogs(logs: ILog[]): IDecodedLog[] {
     return logs
@@ -186,7 +186,7 @@ export default class EtherABI {
    *
    * @static
    * @param {IABIItem[]} abi
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   public static addABI(abi: IABIItem[]) {
     abiDecoder.addABI(abi);
@@ -197,7 +197,7 @@ export default class EtherABI {
    *
    * @static
    * @param {IABIItem[]} abi
-   * @memberof EtherABI
+   * @memberof EthereumABI
    */
   public static removeABI(abi: IABIItem[]) {
     abiDecoder.getABIs().length = 0;
@@ -205,4 +205,4 @@ export default class EtherABI {
   }
 }
 
-export { EtherABI };
+export { EthereumABI };
