@@ -1,9 +1,10 @@
 import abiDecoder = require("abi-decoder");
-import * as Contract from "web3-eth-contract";
+import { Contract } from "web3-eth-contract";
 import isFunction = require("lodash/isFunction");
-import abiCoder = require("web3-eth-abi");
-import { BN } from "web3-utils";
+const abiCoder = require("web3-eth-abi");
 import { IABIItem, IDecoded, IDecodedLog, ILog } from "./model";
+const BN = require("bn.js");
+const contractClass = require("web3-eth-contract");
 
 /**
  * decoder and encoder for Ether
@@ -37,9 +38,9 @@ export default class EthereumABI {
    */
 
   constructor(contract: Contract) {
-    if (contract instanceof Contract) {
+    if (contract instanceof contractClass) {
       this._contract = contract;
-      this._abi = contract._jsonInterface;
+      this._abi = contract.options.jsonInterface;
     } else {
       throw new Error("The input value isn't a contract instance");
     }
@@ -85,7 +86,7 @@ export default class EthereumABI {
       throw new Error(`The contract doesn't contain "${name}" function`);
     }
 
-    const encodedData = method.call(null, ...args).encodeABI();
+    const encodedData = method.apply(null, args).encodeABI();
     return encodedData;
   };
 
