@@ -1,15 +1,16 @@
 language: node_js
 node_js:
-- 11
-- 10
-- 9
-- 8
+  - 14
+  - 13
+  - 12
+  - 11
+  - 10
 after_success:
-- npm run coveralls
+  - npm run coveralls
 addons:
-- chrome: stable
+  - chrome: stable
 services:
-- xvfb
+  - xvfb
 env:
   global:
     secure: G0fZcdYRRVSknkRXyeRvO2zun8+6nzZm5B0IFaZa/m66k/dG7RFm0LM2FvYeDAbwLj0oEDTJztvBPKW9da/YtLlHJERevKWp1TjKJEZgnublYGvjk4Xa3+gR6ux62xgJUFXqqATCSTXioWjYIjWFSFkUmpdlghNrY3K+hmlbUcBQkFEN55Y0+F+rMz6QZtigR1MSPG3ytICsUpLsagG18uZtmt+LTumKkfYqTEMVzFgWXWogPBRn0Qfcu5YdrfKCaWXuzropYovZ4Kw1UTKDlg28QFm8bLQFASVhkAfjJN/3+d5Jc0pSxxu4xMF1aIzdHTF97OEZSQFWpiQ8EZ054KrNH8OjMbrAytUOhniVbsDei+7V26GKahYSSHwJh59sjozvP5CyOaev9Ws+ktRKvN/kzHbM7Pf8m30ZTqSQl+DHFgP6Gvxlv8thA/OkXhNn+P3Dhc2Jo3cxAZqAlzVbK43ORVcZf+unLKt/LKJbynfqgPHW2y8VVyvMneQGTG19iq+AZN9mSv0/kfvnXJaRuRx9Rg+H40K6PV0mlYK0gDr7LhTtgmKVmm1vnuN6vbuudaJ+Amw22P8zs5k4sQQzmt/ULWxcEXqu2SKOQLDK0xzNKNwiVTsLPRy4hKWGHYerAEPIx2FaQjuRB5ciwDKCbkMaujFxGuy5RmSvVf0Q6uk=
