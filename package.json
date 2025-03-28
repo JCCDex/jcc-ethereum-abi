@@ -24,7 +24,7 @@
     "@types/node": "^22.13.14",
     "abi-decoder": "^2.2.2",
     "lodash": "^4.17.15",
-    "web3": "^4.3.0"
+    "web3": "~4.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.5",
