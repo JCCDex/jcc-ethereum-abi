@@ -1,10 +1,11 @@
-import abiDecoder = require("abi-decoder");
+const abiDecoder = require("abi-decoder");
 import { Contract } from "web3-eth-contract";
-import isFunction = require("lodash/isFunction");
+const isFunction = require("lodash/isFunction");
 const abiCoder = require("web3-eth-abi");
 import { IABIItem, IDecoded, IDecodedLog, ILog } from "./model";
 const BN = require("bn.js");
-const contractClass = require("web3-eth-contract");
+// const contractClass = require("web3-eth-contract");
+import { ContractAbi } from "web3-types";
 
 /**
  * decoder and encoder for Ether
@@ -20,7 +21,7 @@ export default class EthereumABI {
    * @type {Contract}
    * @memberof EthereumABI
    */
-  private _contract: Contract;
+  private _contract: Contract<ContractAbi>;
 
   /**
    * Ether abi
@@ -37,10 +38,10 @@ export default class EthereumABI {
    * @memberof EthereumABI
    */
 
-  constructor(contract: Contract) {
-    if (contract instanceof contractClass) {
+  constructor(contract: Contract<ContractAbi>) {
+    if (contract instanceof Contract) {
       this._contract = contract;
-      this._abi = contract.options.jsonInterface;
+      this._abi = Object.assign([], contract.options.jsonInterface);
     } else {
       throw new Error("The input value isn't a contract instance");
     }
@@ -133,15 +134,12 @@ export default class EthereumABI {
             }
           });
 
-          const decodedData = abiCoder.decodeParameters(
-            dataTypes,
-            logData.slice(2)
-          );
+          const decodedData = abiCoder.decodeParameters(dataTypes, logData.slice(2));
           // Loop topic and data to get the params
           method.inputs.map((param) => {
             const decodedP: any = {
               name: param.name,
-              type: param.type
+              type: param.type,
             };
 
             if (param.indexed) {
@@ -162,11 +160,7 @@ export default class EthereumABI {
                 decodedP.value = temp.join("");
               }
             }
-            if (
-              param.type === "uint256" ||
-              param.type === "uint8" ||
-              param.type === "int"
-            ) {
+            if (param.type === "uint256" || param.type === "uint8" || param.type === "int") {
               decodedP.value = new BN(decodedP.value).toString(10);
             }
 
@@ -175,7 +169,7 @@ export default class EthereumABI {
 
           return Object.assign(logItem, {
             events: decodedParams,
-            name: method.name
+            name: method.name,
           });
         }
         return logItem;
